@@ -1,0 +1,15 @@
+[workspace]
+
+members = [
+    # Libraries
+
+    # Binaries
+    "hello_cargo",
+    "guessing_game",
+]
+
+resolver = "2"
+
+[workspace.dependencies]
+
+[patch.crates-io]

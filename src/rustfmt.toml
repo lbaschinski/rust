@@ -1,0 +1,4 @@
+# When rustfmt is run without cargo, it does not read settings in
+# Cargo.toml. This is unfortunate, because rustfmt still defaults to
+# Rust Edition 2015.
+edition = "2021"

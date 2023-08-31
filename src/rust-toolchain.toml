@@ -1,0 +1,16 @@
+# This file is only active if you use Rustup on your machine. Additionally, Nix will pick its Rust
+# toolchain from here.
+#
+# The toolchain file ensures that there are consistent versions of rustc, cargo, rustfmt, clippy,
+# etc. available, when `cargo` is invoked.
+
+
+[toolchain]
+# Used by the regular Rust flow and the Nix flow.
+channel = "1.72.0"
+profile = "default"
+
+components = [
+    "clippy",
+    "rustfmt"
+]
