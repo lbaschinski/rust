@@ -6,6 +6,7 @@ members = [
     # Binaries
     "hello_cargo",
     "guessing_game",
+    "formatted_print",
 ]
 
 resolver = "2"
