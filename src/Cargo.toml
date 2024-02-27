@@ -8,6 +8,7 @@ members = [
     "guessing_game",
     "formatted_print",
     "concepts",
+    "ownership",
 ]
 
 resolver = "2"
