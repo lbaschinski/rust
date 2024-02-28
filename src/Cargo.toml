@@ -9,6 +9,7 @@ members = [
     "formatted_print",
     "concepts",
     "ownership",
+    "structs",
 ]
 
 resolver = "2"
