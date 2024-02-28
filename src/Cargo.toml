@@ -10,6 +10,7 @@ members = [
     "concepts",
     "ownership",
     "structs",
+    "enums_pattern_matching",
 ]
 
 resolver = "2"
