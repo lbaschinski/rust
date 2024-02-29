@@ -119,6 +119,17 @@ fn main() {
     s.push_str(", world!"); // push_str() appends a literal to a String
     println!("{}", s); // This will print `hello, world!`
 
+    print!("chars: ");
+    for c in s.chars() {
+        print!("{c} ");
+    }
+    println!("");
+    print!("bytes: ");
+    for b in s.bytes() {
+        print!("{b} ");
+    }
+    println!("");
+
     move_clone();
     references();
     slice();

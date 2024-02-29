@@ -105,6 +105,48 @@ fn data_types() {
         SpreadsheetCell::Float(10.12),
     ];
     println!("{:?}", row);
+    // Strings: see "ownership" ...
+    // Hash Maps
+    use std::collections::HashMap;
+    let mut scores = HashMap::new();
+    let blue = String::from("Blue");
+    // insert
+    scores.insert(blue.clone(), 10);
+    println!("{:?}", scores);
+    scores.insert(String::from("Yellow"), 50);
+    println!("Team score for team blue: {}", scores.get(&blue).copied().unwrap_or(0));
+    // iterate over
+    for (key, value) in &scores {
+        println!("{key:6}: {value}");
+    }
+    let field_name = String::from("Favorite color");
+    let field_value = String::from("Blue");
+    let mut map = HashMap::new();
+    // ownership
+    map.insert(field_name, field_value); // field_name and field_value are invalid now!
+    map.insert(blue.clone(), blue.clone()); // cloning works as well
+    let mut ref_map = HashMap::new();
+    ref_map.insert(&blue, &blue); // references work as well
+    // updating
+    scores.insert(blue.clone(), 25);
+    println!("Team score for team blue: {}", scores.get(&blue).copied().unwrap_or(0));
+    // insert or do nothing
+    scores.entry(blue.clone()).or_insert(50);
+    scores.entry(String::from("Green")).or_insert(50);
+    println!("Team score for team blue: {}", scores.get(&blue).copied().unwrap_or(0));
+    println!("Team score for team green: {}", scores.get(&blue).copied().unwrap_or(0));
+    // insert or update!!!
+    let blue_score = scores.entry(blue.clone()).or_insert(50);
+    *blue_score = 50;
+    println!("Team score for team blue: {}", scores.get(&blue).copied().unwrap_or(0));
+    // update based on old value
+    let text = "hello world wonderful world";
+    let mut map = HashMap::new();
+    for word in text.split_whitespace() {
+        let count = map.entry(word).or_insert(0);
+        *count += 1; // dereferenced variable
+    }
+    println!("{:?}", map);
 }
 
 /// Functions
@@ -205,15 +247,166 @@ fn fibonacci(position: i32) {
     println!("Fibonacchi until position {}: {:?}", position, fib);
 }
 
+fn median_mode() {
+    use std::collections::HashMap;
+    let mut integer_list1: Vec<i32> = vec![10, 30, 50, 300, 500, 1000, 3400, 500];
+    let mut integer_list2: Vec<i32> = vec![10, 30, 50, 300, 300, 500, 1000, 3400, 500];
+    for mut integer_list in vec![integer_list1, integer_list2] {
+        let vec_len = integer_list.len();
+        let is_even = (vec_len % 2) == 0;
+        integer_list.sort();
+        println!("Input: {:?}", integer_list);
+        // median (middle number when sorted)
+        if is_even {
+            // median = average of the middle two numbers
+            let middle1 = vec_len / 2;
+            let middle2 = middle1 - 1;
+            let median = (integer_list[middle1] + integer_list[middle2]) / 2;
+            println!("Median: {}", median);
+        } else {
+            let middle = vec_len / 2;
+            let median = integer_list[middle];
+            println!("Median: {}", median);
+        }
+        // mode (value that occurs most often)
+        let mut integer_map = HashMap::new();
+        for i in integer_list {
+            let count = integer_map.entry(i).or_insert(0);
+            *count += 1;
+        }
+        let (mut highest, mut count): (i32, i32) = (0, 0);
+        for (k, v) in &integer_map {
+            if v > &count {
+                highest = *k;
+                count = *v;
+            }
+        }
+        println!("Mode: {highest}");
+    }
+}
+
+fn pig_latin() {
+    use std::io;
+    println!("Please write something to convert:");
+    let mut input = String::new();
+    io::stdin()
+        .read_line(&mut input)
+        .expect("Failed to read line");
+    for word in input.split_whitespace() {
+        let mut count = 0;
+        let mut pig_word = String::new();
+        let mut first_char: char = ' ';
+        for c in word.chars() {
+            if count == 0 {
+                first_char = c;
+                if c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' {
+                    pig_word.push(c);
+                }
+            } else {
+                pig_word.push(c);
+            }
+            count += 1;
+        }
+        pig_word.push('-');
+        if first_char == 'a' || first_char == 'e' || first_char == 'i' || first_char == 'o' || first_char == 'u' {
+            pig_word.push('h');
+            pig_word.push('a');
+            pig_word.push('y');
+        } else {
+            pig_word.push(first_char);
+            pig_word.push('a');
+            pig_word.push('y');
+        }
+        print!("{} ", pig_word);
+    }
+    println!("");
+}
+
+fn company_employees() {
+    use std::collections::HashMap;
+    use std::io;
+    fn add_employee(employees: &mut HashMap<String, String>) {
+        println!("Please add the name:");
+        let mut name = String::new();
+        io::stdin()
+            .read_line(&mut name)
+            .expect("Failed to read line");
+        println!("Please add the department:");
+        let mut department = String::new();
+        io::stdin()
+            .read_line(&mut department)
+            .expect("Failed to read line");
+        employees.insert(name.trim().to_string(), department.trim().to_string());
+    }
+    fn list_employees_per_department(employees: &mut HashMap<String, String>) {
+        println!("Please list the department:");
+        let mut department = String::new();
+        io::stdin()
+            .read_line(&mut department)
+            .expect("Failed to read line");
+        println!("Following employees belong to department '{}':", department.trim());
+        sort(employees, Some(department.trim().to_string()));
+    }
+    fn sort(employees: &mut HashMap<String, String>, by_department: Option<String>) {
+        let mut hash_vec: Vec<(&String, &String)> = employees.iter().collect();
+        hash_vec.sort();
+        for (name, department) in hash_vec {
+            match by_department {
+                None => println!("- {}", name),
+                Some(ref d) => if d == department { println!("- {}", name); },
+            }
+        }
+    }
+    let mut employees: HashMap<String, String> = HashMap::new();
+    loop {
+        println!("Do you want to add a new employee (add) or list all (all) or list per department (dep)?");
+        let mut task = String::new();
+        io::stdin()
+            .read_line(&mut task)
+            .expect("Failed to read line");
+        println!("You chose: {}!", task.trim());
+
+/*         // test data
+        employees.insert("L".to_string(), "Eng".to_string());
+        employees.insert("V".to_string(), "BD".to_string());
+        employees.insert("Al".to_string(), "IT".to_string());
+        employees.insert("M N.".to_string(), "Eng".to_string());
+        employees.insert("T".to_string(), "O".to_string());
+        employees.insert("M P.".to_string(), "Eng".to_string());
+        employees.insert("F".to_string(), "BD".to_string());
+        employees.insert("As".to_string(), "IT".to_string());
+        employees.insert("F".to_string(), "O".to_string());
+        employees.insert("J".to_string(), "BD".to_string());
+ */
+        match task.trim() {
+            "add" => add_employee(&mut employees),
+            "all" => {
+                println!("Following employees belong to the company:");
+                sort(&mut employees, None);
+            }
+            "dep" => list_employees_per_department(&mut employees),
+            _ => {
+                    println!("Please choose between 'add', 'list_all' or 'list_dep'!");
+                    continue;
+            }
+        }
+    };
+}
+
 fn main() {
     variables();
     raw_identifiers();
     data_types();
     println!("{}", functions(0, 'a'));
     control_flow();
-    // chapter todos
+    // chapter 3 todos
     convert_fahrenheit_celcius(100.0);
     convert_fahrenheit_celcius(61.0);
     convert_fahrenheit_celcius(82.0);
     fibonacci(15);
     // skipping print_christmas_carol() because "THE TWELVE DAYS OF CHRISTMAS" is quite long
+    // chapter 8 todos
+    median_mode();
+    pig_latin();
+    company_employees();
+}
