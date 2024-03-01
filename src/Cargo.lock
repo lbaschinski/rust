@@ -17,6 +17,10 @@ name = "enums_pattern_matching"
 version = "0.1.0"
 
 [[package]]
+name = "error_handling"
+version = "0.1.0"
+
+[[package]]
 name = "formatted_print"
 version = "0.1.0"
 
