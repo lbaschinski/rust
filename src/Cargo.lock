@@ -25,6 +25,10 @@ name = "formatted_print"
 version = "0.1.0"
 
 [[package]]
+name = "generic_types_traits_lifetimes"
+version = "0.1.0"
+
+[[package]]
 name = "getrandom"
 version = "0.2.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"

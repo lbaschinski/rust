@@ -13,6 +13,7 @@ members = [
     "structs",
     "enums_pattern_matching",
     "error_handling",
+    "generic_types_traits_lifetimes",
 ]
 
 resolver = "2"
