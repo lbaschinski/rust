@@ -15,6 +15,7 @@ members = [
     "enums_pattern_matching",
     "error_handling",
     "generic_types_traits_lifetimes",
+    "minigrep",
 ]
 
 resolver = "2"
