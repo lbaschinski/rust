@@ -249,8 +249,8 @@ fn fibonacci(position: i32) {
 
 fn median_mode() {
     use std::collections::HashMap;
-    let mut integer_list1: Vec<i32> = vec![10, 30, 50, 300, 500, 1000, 3400, 500];
-    let mut integer_list2: Vec<i32> = vec![10, 30, 50, 300, 300, 500, 1000, 3400, 500];
+    let integer_list1: Vec<i32> = vec![10, 30, 50, 300, 500, 1000, 3400, 500];
+    let integer_list2: Vec<i32> = vec![10, 30, 50, 300, 300, 500, 1000, 3400, 500];
     for mut integer_list in vec![integer_list1, integer_list2] {
         let vec_len = integer_list.len();
         let is_even = (vec_len % 2) == 0;

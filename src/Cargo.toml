@@ -3,6 +3,7 @@
 members = [
     # Libraries
     "modules_restaurant",
+    "adder",
 
     # Binaries
     "hello_cargo",
