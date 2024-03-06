@@ -16,6 +16,7 @@ members = [
     "error_handling",
     "generic_types_traits_lifetimes",
     "minigrep",
+    "iterators_closures",
 ]
 
 resolver = "2"
