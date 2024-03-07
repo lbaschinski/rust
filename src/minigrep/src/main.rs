@@ -2,8 +2,8 @@ use std::env;
 use std::process;
 
 use minigrep::Config;
-
-// execute `cargo run --bin minigrep -- "the" "poem.txt"` for example
+// Execute `cargo run --bin minigrep -- "the" "poem.txt"` for example
+// Execute `cargo doc --open` to view the documentation!
 fn main() {
     let config = Config::build(env::args()).unwrap_or_else(|err| {
         eprintln!("Problem parsing arguments: {err}");

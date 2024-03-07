@@ -25,7 +25,13 @@ resolver = "2"
 
 [patch.crates-io]
 
+# Triggered with `cargo build`
+[profile.dev]
+opt-level = 0 # default setting: zero optimizations
+
 # Aborts on panic to avoid unwinding
 # Makes resulting binary smaller
+# Triggered with `cargo build --release`
 [profile.release]
 panic = 'abort'
+opt-level = 3 # default setting: max level of optimizations

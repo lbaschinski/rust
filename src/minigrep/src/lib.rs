@@ -1,7 +1,14 @@
+//! # minigrep
+//!
+//! `minigrep` is a collection of utilities to search for strings
+//! in a given file. Supports case-sensitive and -insensitive searches.
+
 use std::env;
 use std::error::Error;
 use std::fs;
 
+/// Config that holds the query string, the file path to query
+/// and if case is ignored or not.
 pub struct Config {
     pub query: String,
     pub file_path: String,
@@ -9,6 +16,15 @@ pub struct Config {
 }
 
 impl Config {
+    /// Build a config from command line parameters.
+    ///
+    /// # Panics
+    ///
+    /// Cannot panic. Simply returns an error if something is amiss.
+    ///
+    /// # Errors
+    ///
+    /// Returns an error when the args iterator has to few parameters.
     pub fn build(mut args: impl Iterator<Item = String>) -> Result<Config, &'static str> {
         args.next();
 
@@ -28,6 +44,18 @@ impl Config {
     }
 }
 
+/// Run the minigrep search on the given config.
+///
+/// # Examples
+///
+/// ```
+/// use std::env;
+/// use std::process;
+/// use minigrep::Config;
+/// let mut args = vec!["<self>".to_string(), "the".to_string(), "../poem.txt".to_string()].into_iter();
+/// let config = Config::build(args).unwrap();
+/// minigrep::run(config).unwrap();
+/// ```
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     let contents = fs::read_to_string(config.file_path)?;
 
@@ -44,7 +72,8 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-// uses a mutable vector and a for loop
+/// Search function that is case insensitive.
+/// Uses a mutable vector and a for loop.
 pub fn search_case_insensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
     let mut results = Vec::new();
     for line in contents.lines() {
@@ -55,7 +84,8 @@ pub fn search_case_insensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a st
     results
 }
 
-// uses iterators and adaptors
+/// Search function that is case sensitive.
+/// Uses iterators and adaptors.
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
     contents
         .lines()
