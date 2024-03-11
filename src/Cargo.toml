@@ -18,6 +18,7 @@ members = [
     "minigrep",
     "iterators_closures",
     "smart_pointers",
+    "concurrency",
 ]
 
 resolver = "2"

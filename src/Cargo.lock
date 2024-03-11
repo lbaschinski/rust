@@ -17,6 +17,10 @@ name = "concepts"
 version = "0.1.0"
 
 [[package]]
+name = "concurrency"
+version = "0.1.0"
+
+[[package]]
 name = "enums_pattern_matching"
 version = "0.1.0"
 
