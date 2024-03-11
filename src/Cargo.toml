@@ -17,6 +17,7 @@ members = [
     "generic_types_traits_lifetimes",
     "minigrep",
     "iterators_closures",
+    "smart_pointers",
 ]
 
 resolver = "2"
